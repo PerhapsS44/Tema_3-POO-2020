@@ -1,16 +1,33 @@
-/**
- * Entry point to the simulation
- */
-public final class Main {
+import database.Database;
+import gamemaster.GameMaster;
+import systemio.IOFactory;
+import systemio.IOSystem;
 
+public final class Main {
     private Main() { }
 
     /**
-     * Main function which reads the input file and starts simulation
-     *
-     * @param args input and output files
-     * @throws Exception might error when reading/writing/opening files, parsing JSON
+     * Main method
+     * @param args adresele fisierelor de input/output
+     * @throws Exception crapa daca nu ii dai fisierele bune
      */
     public static void main(final String[] args) throws Exception {
+        Database.resetInstance();
+        Database database = Database.getInstance();
+
+        GameMaster.resetInstance();
+        GameMaster gameMaster = GameMaster.getInstance();
+
+        IOSystem reader = IOFactory.createIOSystem("read");
+        database.setInputData(reader.doYourMagic(args[0], null));
+
+        GameMaster.setDatabase(database);
+
+        gameMaster.simulate();
+
+        database.prepareOutput();
+
+        IOSystem writer = IOFactory.createIOSystem("write");
+        writer.doYourMagic(args[1], database.getOutput());
     }
 }
