@@ -2,6 +2,9 @@
   <library name="checkstyle-8.36.2-all">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/src/checker/checkstyle-8.36.2-all.jar!/" />
+      <root url="jar://$PROJECT_DIR$/imports/jackson-annotations-2.9.7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/imports/jackson-core-2.9.7.jar!/" />
+      <root url="jar://$PROJECT_DIR$/imports/jackson-databind-2.9.7.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
