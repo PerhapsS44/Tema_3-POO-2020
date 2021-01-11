@@ -8,6 +8,10 @@ public class Player {
     public Player() {
     }
 
+    public  Player (final int id){
+        this.id = id;
+    }
+
     public Player(final int id, final long initialBudget) {
         this.id = id;
         this.initialBudget = initialBudget;

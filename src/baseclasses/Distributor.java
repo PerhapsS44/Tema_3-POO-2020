@@ -1,6 +1,7 @@
 package baseclasses;
 
 import constants.Constants;
+import strategies.EnergyChoiceStrategyType;
 
 import java.util.ArrayList;
 
@@ -8,6 +9,8 @@ public final class Distributor extends Player {
     private long contractLength;
     private long initialInfrastructureCost;
     private long initialProductionCost;
+    private int energyNeededKW;
+    private EnergyChoiceStrategyType producerStrategy;
     private Contract baseContract;
 
     private ArrayList<Contract> contracts;
@@ -18,11 +21,13 @@ public final class Distributor extends Player {
     }
 
     public Distributor(final int id, final int initialBudget, final int contractLength,
-                       final int initialInfrastructureCost, final int initialProductionCost) {
+                       final int initialInfrastructureCost, final int energyNeededKW,
+                       final EnergyChoiceStrategyType producerStrategy) {
         super(id, initialBudget);
         this.contractLength = contractLength;
         this.initialInfrastructureCost = initialInfrastructureCost;
-        this.initialProductionCost = initialProductionCost;
+        this.energyNeededKW = energyNeededKW;
+        this.producerStrategy = producerStrategy;
         contracts = new ArrayList<>();
     }
 
@@ -48,6 +53,22 @@ public final class Distributor extends Player {
 
     public void setInitialProductionCost(final long initialProductionCost) {
         this.initialProductionCost = initialProductionCost;
+    }
+
+    public int getEnergyNeededKW() {
+        return energyNeededKW;
+    }
+
+    public void setEnergyNeededKW(int energyNeededKW) {
+        this.energyNeededKW = energyNeededKW;
+    }
+
+    public EnergyChoiceStrategyType getProducerStrategy() {
+        return producerStrategy;
+    }
+
+    public void setProducerStrategy(EnergyChoiceStrategyType producerStrategy) {
+        this.producerStrategy = producerStrategy;
     }
 
     public ArrayList<Contract> getContracts() {

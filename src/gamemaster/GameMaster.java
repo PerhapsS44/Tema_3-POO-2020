@@ -4,7 +4,7 @@ import baseclasses.Consumer;
 import baseclasses.Contract;
 import baseclasses.Distributor;
 import database.Database;
-import inputclasses.CostChange;
+import inputclasses.DistributorChange;
 import inputclasses.MonthlyUpdate;
 
 import java.util.ArrayList;
@@ -91,11 +91,12 @@ public final class GameMaster {
     public void monthlyUpdate(final int month) {
         MonthlyUpdate currentUpdate = database.getInputData().getMonthlyUpdates().get(month);
         database.getConsumers().addAll(currentUpdate.getNewConsumers());
-        for (CostChange costChange : currentUpdate.getCostsChanges()) {
+        for (DistributorChange costChange : currentUpdate.getDistributorChanges()) {
             for (Distributor distributor : database.getDistributors()) {
                 if (distributor.getId() == costChange.getId()) {
                     distributor.setInitialInfrastructureCost(costChange.getInfrastructureCost());
-                    distributor.setInitialProductionCost(costChange.getProductionCost());
+//                    distributor.setInitialProductionCost(costChange.getProductionCost());
+                    distributor.setInitialProductionCost(0);
                     break;
                 }
             }
