@@ -1,6 +1,8 @@
 package baseclasses;
 
+import Utils.SortedProducers;
 import constants.Constants;
+import database.Database;
 import strategies.EnergyChoiceStrategyType;
 
 import java.util.ArrayList;
@@ -12,6 +14,8 @@ public final class Distributor extends Player {
     private int energyNeededKW;
     private EnergyChoiceStrategyType producerStrategy;
     private Contract baseContract;
+
+    private boolean needProdUpdate = true;
 
     private ArrayList<Contract> contracts;
 
@@ -87,6 +91,14 @@ public final class Distributor extends Player {
         this.baseContract = baseContract;
     }
 
+    public boolean isNeedProdUpdate() {
+        return needProdUpdate;
+    }
+
+    public void setNeedProdUpdate(boolean needProdUpdate) {
+        this.needProdUpdate = needProdUpdate;
+    }
+
     private long contractsSize() {
         long contor = 0;
         for (Contract contract : contracts) {
@@ -148,5 +160,87 @@ public final class Distributor extends Player {
                 contract.getClient().setCurrentContract(null);
             }
         }
+    }
+
+    public void updateProductionCost(SortedProducers sortedProducers){
+        // sa calculez costul de productie in baza strategiei alese
+        if (!needProdUpdate) {
+            return;
+        }
+//        for (Producer producer : Database.getInstance().getProducers()) {
+//            producer.getDistributors().remove(this);
+//        }
+
+//        System.out.println("----------------------------------------------");
+        int currentEnergy = 0;
+        double cost = 0;
+        initialProductionCost = 0;
+        switch(producerStrategy){
+            case GREEN:{
+                for (Producer producer : sortedProducers.getSortedGreenProducers()){
+                    if (producer.isNotFull()) {
+                        cost += producer.getPriceKW() * producer.getEnergyPerDistributor();
+                        currentEnergy += producer.getEnergyPerDistributor();
+                        producer.addDistributor(this);
+                        if (currentEnergy >= energyNeededKW) {
+                            break;
+                        }
+                    }
+                }
+                initialProductionCost = Math.round(Math.floor(cost / 10));
+                break;
+            }
+            case PRICE:{
+                for (Producer producer : sortedProducers.getSortedPriceProducers()){
+                    if (producer.isNotFull()) {
+                        cost += producer.getPriceKW() * producer.getEnergyPerDistributor();
+                        currentEnergy += producer.getEnergyPerDistributor();
+                        producer.addDistributor(this);
+                        if (currentEnergy >= energyNeededKW) {
+                            break;
+                        }
+                    }
+                }
+                initialProductionCost = Math.round(Math.floor(cost / 10));
+                break;
+            }
+            case QUANTITY:{
+                for (Producer producer : sortedProducers.getSortedQuantityProducers()){
+                    if (producer.isNotFull()) {
+                        cost += producer.getPriceKW() * producer.getEnergyPerDistributor();
+                        currentEnergy += producer.getEnergyPerDistributor();
+                        producer.addDistributor(this);
+                        if (currentEnergy >= energyNeededKW) {
+                            break;
+                        }
+                    }
+                }
+                initialProductionCost = Math.round(Math.floor(cost / 10));
+                break;
+            }
+        }
+        needProdUpdate = false;
+    }
+
+    public void setNeedProdUpdate(){
+        needProdUpdate = true;
+    }
+
+    @Override
+    public String toString() {
+        return "Distributor{" +
+                "id=" + getId() +
+                ", budget" + getInitialBudget() +
+                ", contractLength=" + contractLength +
+                ", initialInfrastructureCost=" + initialInfrastructureCost +
+                ", initialProductionCost=" + initialProductionCost +
+                ", energyNeededKW=" + energyNeededKW +
+                ", producerStrategy=" + producerStrategy +
+                ", baseContract=" + baseContract +
+                ", needProdUpdate=" + needProdUpdate +
+                ", contracts=" + contracts +
+                ", expenses=" + expenses +
+                ", isBankrupt=" + isBankrupt() +
+                '}';
     }
 }

@@ -77,4 +77,13 @@ public final class Contract {
         return consumerId;
     }
 
+    @Override
+    public String toString() {
+        return "Contract{" +
+                "remainedContractMonths=" + remainedContractMonths +
+                ", price=" + price +
+                ", distributorId=" + distributor.getId() +
+                ", consumerId=" + consumerId +
+                '}';
+    }
 }

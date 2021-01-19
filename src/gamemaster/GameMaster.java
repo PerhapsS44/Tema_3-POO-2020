@@ -1,11 +1,14 @@
 package gamemaster;
 
+import Utils.SortedProducers;
 import baseclasses.Consumer;
 import baseclasses.Contract;
 import baseclasses.Distributor;
+import baseclasses.Producer;
 import database.Database;
 import inputclasses.DistributorChange;
 import inputclasses.MonthlyUpdate;
+import inputclasses.ProducerChange;
 
 import java.util.ArrayList;
 
@@ -45,10 +48,21 @@ public final class GameMaster {
      * Ruleaza simularea
      */
     public void simulate() {
+//        System.out.println("luna 0");
         monthlySimulation();
         for (int i = 0; i < database.getInputData().getNumberOfTurns(); i++) {
-            monthlyUpdate(i);
+//            System.out.println();
+//            System.out.println();
+//            System.out.println("luna " + (i+1));
+            monthlyUpdateBeginning(i);
+            if (database.areDistributorsBankrupt() == true){
+                break;
+            }
             monthlySimulation();
+            monthlyUpdateEnding(i);
+            for (Producer producer : database.getProducers()){
+                producer.setMonthlyStats(i);
+            }
         }
     }
 
@@ -57,6 +71,15 @@ public final class GameMaster {
      * (o singura iteratie din simulare)
      */
     public void monthlySimulation() {
+//        System.out.println("Inceput de luna");
+//        System.out.println(database.getConsumers());
+//        System.out.println(database.getDistributors());
+//        System.out.println(database.getProducers());
+
+        SortedProducers sortedProducers = new SortedProducers(database.getProducers());
+        for (Distributor distributor : database.getDistributors()){
+            distributor.updateProductionCost(sortedProducers);
+        }
 
         createBaseContracts();
 
@@ -82,25 +105,50 @@ public final class GameMaster {
             }
         }
 
+//        System.out.println("Final de luna");
+//        System.out.println(database.getConsumers());
+//        System.out.println(database.getDistributors());
+//        System.out.println(database.getProducers());
     }
 
     /**
      * Se actualizeaza baza de date in functie de datele din input
      * @param month luna curenta
      */
-    public void monthlyUpdate(final int month) {
+    public void monthlyUpdateBeginning(final int month) {
         MonthlyUpdate currentUpdate = database.getInputData().getMonthlyUpdates().get(month);
         database.getConsumers().addAll(currentUpdate.getNewConsumers());
         for (DistributorChange costChange : currentUpdate.getDistributorChanges()) {
             for (Distributor distributor : database.getDistributors()) {
                 if (distributor.getId() == costChange.getId()) {
                     distributor.setInitialInfrastructureCost(costChange.getInfrastructureCost());
-//                    distributor.setInitialProductionCost(costChange.getProductionCost());
-                    distributor.setInitialProductionCost(0);
                     break;
                 }
             }
         }
+    }
+
+    public void monthlyUpdateEnding(final int month){
+        MonthlyUpdate currentUpdate = database.getInputData().getMonthlyUpdates().get(month);
+        for (ProducerChange producerChange : currentUpdate.getProducerChanges()){
+            for (Producer producer : database.getProducers()){
+                if (producer.getId() == producerChange.getId()){
+                    producer.setEnergyPerDistributor(producerChange.getEnergyPerDistributor());
+                    producer.getDistributors().forEach(Distributor::setNeedProdUpdate);
+                    break;
+                }
+            }
+        }
+        SortedProducers sortedProducers = new SortedProducers(database.getProducers());
+        for (Distributor distributor : database.getDistributors()){
+            if (distributor.isNeedProdUpdate()){
+                for (Producer producer2 : database.getProducers()){
+                    producer2.removeDistributor(distributor);
+                }
+                distributor.updateProductionCost(sortedProducers);
+            }
+        }
+
     }
 
     /**

@@ -2,6 +2,7 @@ package database;
 
 import baseclasses.Consumer;
 import baseclasses.Distributor;
+import baseclasses.Producer;
 import systemio.InputData;
 import systemio.OutputData;
 
@@ -14,6 +15,7 @@ public final class Database {
 
     private ArrayList<Consumer> consumers;
     private ArrayList<Distributor> distributors;
+    private ArrayList<Producer> producers;
 
     private Database() {
         inputData = new InputData();
@@ -51,6 +53,7 @@ public final class Database {
         this.inputData = inputData;
         this.consumers = new ArrayList<>(inputData.getInitialData().getConsumers());
         this.distributors = new ArrayList<>(inputData.getInitialData().getDistributors());
+        this.producers = new ArrayList<>(inputData.getInitialData().getProducers());
     }
 
     public ArrayList<Consumer> getConsumers() {
@@ -69,6 +72,14 @@ public final class Database {
         this.distributors = distributors;
     }
 
+    public ArrayList<Producer> getProducers() {
+        return producers;
+    }
+
+    public void setProducers(ArrayList<Producer> producers) {
+        this.producers = producers;
+    }
+
     public OutputData getOutput() {
         return output;
     }
@@ -83,6 +94,7 @@ public final class Database {
     public void prepareOutput() {
         output.setConsumers(consumers);
         output.setDistributors(distributors);
+        output.setEnergyProducers(producers);
     }
 
     /**
@@ -92,6 +104,7 @@ public final class Database {
      */
     public Distributor getLowestPrice() {
         Distributor lowest = null;
+//        System.out.println(distributors);
         for (Distributor distributor : distributors) {
             if (distributor.isBankrupt()) {
                 continue;
@@ -105,6 +118,15 @@ public final class Database {
             }
         }
         return lowest;
+    }
+
+    public boolean areDistributorsBankrupt(){
+        for (Distributor distributor : distributors){
+            if (!distributor.isBankrupt()) {
+                return false;
+            }
+        }
+        return true;
     }
 
 
