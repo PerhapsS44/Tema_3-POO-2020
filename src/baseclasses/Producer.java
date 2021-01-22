@@ -66,6 +66,7 @@ public final class Producer extends Player {
     /**
      * fac set normal, doar ca apelez si Distribuitor::setNeedProdUpdate, adica apelez updateState
      * pentur fiecare observator
+     *
      * @param energyPerDistributor
      */
     public void setEnergyPerDistributor(final int energyPerDistributor) {
@@ -79,6 +80,7 @@ public final class Producer extends Player {
 
     /**
      * Creez monthlyStats pt ca se cere in enunt
+     *
      * @param month
      */
     public void setMonthlyStats(final int month) {
@@ -108,6 +110,7 @@ public final class Producer extends Player {
     /**
      * adaug un distribuitor la lista de distribuitori
      * imi trebuie ca sa fac monthlyStats, dar si pentru mecanismul de updateState
+     *
      * @param distributor
      */
     public void addDistributor(final Distributor distributor) {
@@ -120,6 +123,7 @@ public final class Producer extends Player {
 
     /**
      * verifica daca mai este loc pentru distribuitori
+     *
      * @return
      */
     public boolean isNotFull() {
@@ -128,6 +132,7 @@ public final class Producer extends Player {
 
     /**
      * Stergem 'distribuitor' din lista de distribuitori
+     *
      * @param distributor
      */
     public void removeDistributor(Distributor distributor) {

@@ -1,10 +1,6 @@
 package sortingstrategies;
 
-import baseclasses.Producer;
-import database.Database;
 import strategies.EnergyChoiceStrategyType;
-
-import java.util.ArrayList;
 
 public final class FactoryStrategy {
     private FactoryStrategy() {
@@ -16,19 +12,19 @@ public final class FactoryStrategy {
      * @param strategyType strategia aplicata
      * @return vector sortat dupa strategia aplicata
      */
-    public static ArrayList<Producer> getSortedProducers(EnergyChoiceStrategyType strategyType) {
+    public static SortingStrategy getSortedProducers(EnergyChoiceStrategyType strategyType) {
         switch (strategyType) {
             case GREEN -> {
-                return GreenSortingStrategy.sort(Database.getInstance().getProducers());
+                return new GreenSortingStrategy();
             }
             case PRICE -> {
-                return PriceSortingStrategy.sort(Database.getInstance().getProducers());
+                return new PriceSortingStrategy();
             }
             case QUANTITY -> {
-                return QuantitySortingStrategy.sort(Database.getInstance().getProducers());
+                return new QuantitySortingStrategy();
             }
             default -> {
-                return Database.getInstance().getProducers();
+                return null;
             }
         }
     }

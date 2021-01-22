@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public final class QuantitySortingStrategy implements SortingStrategy {
 
-    private QuantitySortingStrategy() {
+    public QuantitySortingStrategy() {
     }
 
     /**
@@ -15,7 +15,7 @@ public final class QuantitySortingStrategy implements SortingStrategy {
      * @param producers
      * @return
      */
-    public static ArrayList<Producer> sort(ArrayList<Producer> producers) {
+    public ArrayList<Producer> sort(ArrayList<Producer> producers) {
         ArrayList<Producer> sortedQuantityProducers = new ArrayList<>(producers);
 
         sortedQuantityProducers.sort((p1, p2) -> {

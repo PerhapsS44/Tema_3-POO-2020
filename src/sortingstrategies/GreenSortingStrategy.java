@@ -5,7 +5,7 @@ import baseclasses.Producer;
 import java.util.ArrayList;
 
 public final class GreenSortingStrategy implements SortingStrategy {
-    private GreenSortingStrategy() {
+    public GreenSortingStrategy() {
     }
 
     /**
@@ -14,7 +14,7 @@ public final class GreenSortingStrategy implements SortingStrategy {
      * @param producers
      * @return
      */
-    public static ArrayList<Producer> sort(final ArrayList<Producer> producers) {
+    public ArrayList<Producer> sort(final ArrayList<Producer> producers) {
 
         ArrayList<Producer> sortedGreenProducers = new ArrayList<>(producers);
 

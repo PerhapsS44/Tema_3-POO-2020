@@ -1,7 +1,9 @@
 package baseclasses;
 
-import sortingstrategies.FactoryStrategy;
 import constants.Constants;
+import database.Database;
+import sortingstrategies.FactoryStrategy;
+import sortingstrategies.SortingStrategy;
 import strategies.EnergyChoiceStrategyType;
 
 import java.util.ArrayList;
@@ -173,7 +175,9 @@ public final class Distributor extends Player {
         double cost = 0;
         initialProductionCost = 0;
 
-        ArrayList<Producer> sortedProducers = FactoryStrategy.getSortedProducers(producerStrategy);
+        SortingStrategy sortingStrategy = FactoryStrategy.getSortedProducers(producerStrategy);
+        ArrayList<Producer> sortedProducers =
+                sortingStrategy.sort(Database.getInstance().getProducers());
 
         for (Producer producer : sortedProducers) {
             if (producer.isNotFull()) {

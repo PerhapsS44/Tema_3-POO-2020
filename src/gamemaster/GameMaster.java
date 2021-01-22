@@ -116,6 +116,7 @@ public final class GameMaster {
 
     /**
      * Se actualizeaza baza de date in functie de datele din input, la final de luna
+     *
      * @param month
      */
     public void monthlyUpdateEnding(final int month) {

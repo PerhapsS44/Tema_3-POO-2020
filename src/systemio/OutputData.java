@@ -63,6 +63,7 @@ public final class OutputData {
 
     /**
      * Creeaza un vector de ProducerOutput dintr-un vector de Producer
+     *
      * @param energyProducers
      */
     public void setEnergyProducers(ArrayList<Producer> energyProducers) {

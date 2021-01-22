@@ -128,6 +128,7 @@ public final class Database {
 
     /**
      * testez daca jocul s-a incheiat sau nu, in cazul in care sunt toti distribuitorii bankrupt
+     *
      * @return
      */
     public boolean areDistributorsBankrupt() {

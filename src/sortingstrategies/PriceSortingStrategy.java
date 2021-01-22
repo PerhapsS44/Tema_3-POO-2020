@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public final class PriceSortingStrategy implements SortingStrategy {
 
-    private PriceSortingStrategy() {
+    public PriceSortingStrategy() {
     }
 
     /**
@@ -15,7 +15,7 @@ public final class PriceSortingStrategy implements SortingStrategy {
      * @param producers
      * @return
      */
-    public static ArrayList<Producer> sort(ArrayList<Producer> producers) {
+    public ArrayList<Producer> sort(ArrayList<Producer> producers) {
         ArrayList<Producer> sortedPriceProducers = new ArrayList<>(producers);
 
         sortedPriceProducers.sort((p1, p2) -> {
