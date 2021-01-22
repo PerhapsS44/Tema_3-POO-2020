@@ -2,7 +2,7 @@ package outputclasses;
 
 import java.util.ArrayList;
 
-public class MonthlyStat {
+public final class MonthlyStat {
     private int month;
     private ArrayList<Long> distributorsIds;
 

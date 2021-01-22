@@ -1,10 +1,12 @@
 package systemio;
 
 public final class IOFactory {
-    private IOFactory() { }
+    private IOFactory() {
+    }
 
     /**
      * Factory-method
+     *
      * @param file
      * @return
      */

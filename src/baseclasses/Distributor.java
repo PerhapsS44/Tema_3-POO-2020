@@ -1,8 +1,7 @@
 package baseclasses;
 
-import Utils.SortedProducers;
+import sortingstrategies.FactoryStrategy;
 import constants.Constants;
-import database.Database;
 import strategies.EnergyChoiceStrategyType;
 
 import java.util.ArrayList;
@@ -141,6 +140,7 @@ public final class Distributor extends Player {
 
     /**
      * Se adauga la buget taxele colectate de la un consumator
+     *
      * @param income
      */
     public void getPayment(final long income) {
@@ -162,85 +162,38 @@ public final class Distributor extends Player {
         }
     }
 
-    public void updateProductionCost(SortedProducers sortedProducers){
-        // sa calculez costul de productie in baza strategiei alese
+    /**
+     * Calculez costul de productie in baza strategiei alese
+     */
+    public void updateProductionCost() {
         if (!needProdUpdate) {
             return;
         }
-//        for (Producer producer : Database.getInstance().getProducers()) {
-//            producer.getDistributors().remove(this);
-//        }
-
-//        System.out.println("----------------------------------------------");
         int currentEnergy = 0;
         double cost = 0;
         initialProductionCost = 0;
-        switch(producerStrategy){
-            case GREEN:{
-                for (Producer producer : sortedProducers.getSortedGreenProducers()){
-                    if (producer.isNotFull()) {
-                        cost += producer.getPriceKW() * producer.getEnergyPerDistributor();
-                        currentEnergy += producer.getEnergyPerDistributor();
-                        producer.addDistributor(this);
-                        if (currentEnergy >= energyNeededKW) {
-                            break;
-                        }
-                    }
+
+        ArrayList<Producer> sortedProducers = FactoryStrategy.getSortedProducers(producerStrategy);
+
+        for (Producer producer : sortedProducers) {
+            if (producer.isNotFull()) {
+                cost += producer.getPriceKW() * producer.getEnergyPerDistributor();
+                currentEnergy += producer.getEnergyPerDistributor();
+                producer.addDistributor(this);
+                if (currentEnergy >= energyNeededKW) {
+                    break;
                 }
-                initialProductionCost = Math.round(Math.floor(cost / 10));
-                break;
-            }
-            case PRICE:{
-                for (Producer producer : sortedProducers.getSortedPriceProducers()){
-                    if (producer.isNotFull()) {
-                        cost += producer.getPriceKW() * producer.getEnergyPerDistributor();
-                        currentEnergy += producer.getEnergyPerDistributor();
-                        producer.addDistributor(this);
-                        if (currentEnergy >= energyNeededKW) {
-                            break;
-                        }
-                    }
-                }
-                initialProductionCost = Math.round(Math.floor(cost / 10));
-                break;
-            }
-            case QUANTITY:{
-                for (Producer producer : sortedProducers.getSortedQuantityProducers()){
-                    if (producer.isNotFull()) {
-                        cost += producer.getPriceKW() * producer.getEnergyPerDistributor();
-                        currentEnergy += producer.getEnergyPerDistributor();
-                        producer.addDistributor(this);
-                        if (currentEnergy >= energyNeededKW) {
-                            break;
-                        }
-                    }
-                }
-                initialProductionCost = Math.round(Math.floor(cost / 10));
-                break;
             }
         }
+        initialProductionCost = Math.round(Math.floor(cost / Constants.COST_FACTOR));
+
         needProdUpdate = false;
     }
 
-    public void setNeedProdUpdate(){
+    /**
+     * UpdateState pentru Observer Pattern
+     */
+    public void setNeedProdUpdate() {
         needProdUpdate = true;
-    }
-
-    @Override
-    public String toString() {
-        return "Distributor{" +
-                "id=" + getId() +
-                ", budget" + getInitialBudget() +
-                ", contractLength=" + contractLength +
-                ", initialInfrastructureCost=" + initialInfrastructureCost +
-                ", initialProductionCost=" + initialProductionCost +
-                ", energyNeededKW=" + energyNeededKW +
-                ", producerStrategy=" + producerStrategy +
-                ", baseContract=" + baseContract +
-                ", needProdUpdate=" + needProdUpdate +
-                ", contracts=" + contracts +
-                ", expenses=" + expenses +
-                ", isBankrupt=" + isBankrupt() +
-                '}';
     }
 }

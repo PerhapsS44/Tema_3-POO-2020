@@ -5,6 +5,7 @@ import java.io.IOException;
 public interface IOSystem {
     /**
      * Ruleaza read/write in functie de input
+     *
      * @param file
      * @param outputData
      * @return

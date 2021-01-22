@@ -31,6 +31,7 @@ public final class OutputData {
 
     /**
      * Creeaza un vector de ConsumerOutput dintr-un vector de Consumer
+     *
      * @param consumers
      */
     public void setConsumers(final ArrayList<Consumer> consumers) {
@@ -46,6 +47,7 @@ public final class OutputData {
 
     /**
      * Creeaza un vector de DistributorOutput dintr-un vector de Distributor
+     *
      * @param distributors
      */
     public void setDistributors(final ArrayList<Distributor> distributors) {
@@ -59,9 +61,13 @@ public final class OutputData {
         return energyProducers;
     }
 
+    /**
+     * Creeaza un vector de ProducerOutput dintr-un vector de Producer
+     * @param energyProducers
+     */
     public void setEnergyProducers(ArrayList<Producer> energyProducers) {
         this.energyProducers = new ArrayList<>();
-        for (Producer p : energyProducers){
+        for (Producer p : energyProducers) {
             this.energyProducers.add(new ProducerOutput(p));
         }
     }

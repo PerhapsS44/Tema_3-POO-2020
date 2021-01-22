@@ -20,10 +20,14 @@ public final class Database {
     private Database() {
         inputData = new InputData();
         output = new OutputData();
+        consumers = new ArrayList<>();
+        distributors = new ArrayList<>();
+        producers = new ArrayList<>();
     }
 
     /**
      * Singleton get-method
+     *
      * @return
      */
     public static Database getInstance() {
@@ -47,6 +51,7 @@ public final class Database {
 
     /**
      * Seteaza vectorii din baza de date
+     *
      * @param inputData datele citite din fisier
      */
     public void setInputData(final InputData inputData) {
@@ -100,6 +105,7 @@ public final class Database {
     /**
      * Parcurge vectorul de distribuitori si il intoarce pe cel cu
      * pretul contractului cel mai mic
+     *
      * @return
      */
     public Distributor getLowestPrice() {
@@ -120,8 +126,12 @@ public final class Database {
         return lowest;
     }
 
-    public boolean areDistributorsBankrupt(){
-        for (Distributor distributor : distributors){
+    /**
+     * testez daca jocul s-a incheiat sau nu, in cazul in care sunt toti distribuitorii bankrupt
+     * @return
+     */
+    public boolean areDistributorsBankrupt() {
+        for (Distributor distributor : distributors) {
             if (!distributor.isBankrupt()) {
                 return false;
             }

@@ -58,6 +58,7 @@ public final class Contract {
 
     /**
      * Seteaza pentru contractul curent consumatorul care l-a incheiat
+     *
      * @param client
      */
     public void setClient(final Consumer client) {
@@ -77,13 +78,13 @@ public final class Contract {
         return consumerId;
     }
 
-    @Override
-    public String toString() {
-        return "Contract{" +
-                "remainedContractMonths=" + remainedContractMonths +
-                ", price=" + price +
-                ", distributorId=" + distributor.getId() +
-                ", consumerId=" + consumerId +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Contract{" +
+//                "remainedContractMonths=" + remainedContractMonths +
+//                ", price=" + price +
+//                ", distributorId=" + distributor.getId() +
+//                ", consumerId=" + consumerId +
+//                '}';
+//    }
 }

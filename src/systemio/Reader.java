@@ -8,6 +8,7 @@ import java.io.IOException;
 public final class Reader implements IOSystem {
     /**
      * Citeste datele dintr-un fisier si returneaza un obiect cu toate datele
+     *
      * @param inputFile
      * @return
      * @throws IOException
@@ -19,6 +20,7 @@ public final class Reader implements IOSystem {
 
     /**
      * Citeste datele dintr-un fisier si returneaza un obiect cu toate datele
+     *
      * @param file
      * @param outputData
      * @return

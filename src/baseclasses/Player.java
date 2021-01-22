@@ -8,7 +8,7 @@ public class Player {
     public Player() {
     }
 
-    public  Player (final int id){
+    public Player(final int id) {
         this.id = id;
     }
 

@@ -5,7 +5,7 @@ import entities.EnergyType;
 
 import java.util.ArrayList;
 
-public class ProducerOutput {
+public final class ProducerOutput {
     private long id;
     private EnergyType energyType;
     private int maxDistributors;

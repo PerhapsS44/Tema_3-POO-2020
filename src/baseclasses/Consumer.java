@@ -76,15 +76,15 @@ public final class Consumer extends Player {
         currentContract.setRemainedContractMonths(currentContract.getRemainedContractMonths() - 1);
     }
 
-    @Override
-    public String toString() {
-        return "Consumer{" +
-                "budget=" + getInitialBudget() +
-                ", monthlyIncome=" + monthlyIncome +
-                ", inDebt=" + inDebt +
-                ", oldTaxes=" + oldTaxes +
-                ", oldDistribuitor=" + oldDistribuitor +
-                ", currentContract=" + currentContract +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Consumer{" +
+//                "budget=" + getInitialBudget() +
+//                ", monthlyIncome=" + monthlyIncome +
+//                ", inDebt=" + inDebt +
+//                ", oldTaxes=" + oldTaxes +
+//                ", oldDistribuitor=" + oldDistribuitor +
+//                ", currentContract=" + currentContract +
+//                '}';
+//    }
 }

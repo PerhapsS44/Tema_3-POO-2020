@@ -8,6 +8,7 @@ import java.io.IOException;
 public final class Writer implements IOSystem {
     /**
      * Scrie datele intr-un fisier
+     *
      * @param outputFile
      * @param result
      * @throws IOException
@@ -19,6 +20,7 @@ public final class Writer implements IOSystem {
 
     /**
      * Scrie datele intr-un fisier
+     *
      * @param file
      * @param outputData
      * @return
