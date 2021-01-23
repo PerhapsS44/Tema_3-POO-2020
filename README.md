@@ -30,6 +30,14 @@ Tutorial Jackson JSON:
 Pentru a realiza tema am folosit 2 entitati, numite Database si GameMaster. In prima salvez 
 datele pe care le prelucrez, iar in a doua am realizat logica simularii.
 
+ Ordinea operatiilor este aceeasi ca la majoritatea lumii, iar fix acest lucru a determinat
+ca implementarea claselor de Consumator si Distribuitor sa nu poata fi realizata cu Factory
+pattern, deoarece acestea sunt interdependente in realizarea operatiilor. Mi-ar fi placut
+ca tema sa poata fi implementata cu o metoda de genul "Player.update()", dar nu s-a putut.
+
+Pentru a realiza simularea propriuzisa am facut 3 functii mari si late, "monthlySimulation", monthlyUpdateBeginning si
+"monthlyUpdateEnding", ce realizeaza o iteratie din simulare pentru fiecare luna.
+
 ### Entitati
 
 SystemIO: InputData, IOFactory, IOSystem, OutputData, Reader, Writer
@@ -58,6 +66,23 @@ Conform descrierii simularii de pe ocw, am runda initiala si apoi un loop prin t
 In loop, fac update la inceput de luna, apoi rulez logica de implementare, apoi fac update la
 finalul lunii
 
+Adica:
+
+--> realizez update-urile primite la input pentru distribuitori si consumatori (mai putin la prima iteratie, cand nu exista update-uri)
+
+--> creez sabloane de contracte noi pentru fiecare distribuitor
+
+--> creez contracte noi pentru consumatorii fara contracte / cu contracte expirate
+
+--> pentru fiecare distribuitor calculez taxele pe care trebuie sa le plateasca
+
+--> consumatorii platesc taxele, iar cei care devin bankrupt sunt eliminati din joc
+(le anulez contractul)
+
+--> distribuitorii platesc taxele
+
+--> realizez update-urile primite la input pentru producatori si recalculez costul de productie pentru distribuitor
+
 ### Elemente de design OOP
 
 Interfete: le-am folosit ca sa fac Strategy Pattern si ca sa implementez IOFactory
@@ -66,6 +91,8 @@ Incapsularea: am folosit o peste tot, pt ca checkstyle zice asa
 
 Mosteniri: le-am folosit ca sa creez clasele Consumer, Distributor si Producer, in baza datelor 
 comune din Player; am facut asta la inceput pt ca ma gandeam ca voi face un factory dupa Player
+
+Polimorfism: am folosit asta ca sa pot sa fac factory, in special la SortingStrategy
 
 ### Design patterns
 
@@ -85,9 +112,20 @@ si acestia isi dau update la state-ul curent (needProdUpdate)
 
 ### Dificultati intalnite, limitari, probleme
 
-In afara de debug si de intelegerea logicii testelor, nu am intampinat dificultati
+In afara de debug si de intelegerea logicii testelor, nu am intampinat dificultati la etapa 2
 
-12 ore si am terminat de codat toata tema
+12 ore si am terminat de codat toata etapa 2
+
+De la etapa 1:
+
+Consumer.payTaxes() a necesitat atentie sporita deoarece un consumator restant trebuie
+sa plateasca taxele vechi catre distribuitorul vechi
+
+Contractele contin in interiorul lor referinte catre Consumatorul si Distribuitorul intre
+care s-a incheiat, ca sa am un cod mai lizibil si o implementare mai accesibila
+
+Afisarea contractului a fost putin suspecta, deoarece a trebuit sa folosesc
+"@JsonIgnore" pentru niste campuri, ca sa nu faca urat
 
 ## Feedback, comments
 
